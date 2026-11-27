@@ -14,121 +14,265 @@
 }
 
 body {
-    background: #080810;
+    background: #050509;
     color: white;
-    font-family: Arial, sans-serif;
+    font-family: Consolas, monospace;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     overflow: hidden;
 }
 
-body::before {
-    content: "";
+#matrix {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.55;
+}
+
+.glow {
     position: fixed;
     width: 500px;
     height: 500px;
-    background: #702cff;
+    background: #7300ff;
     filter: blur(180px);
-    opacity: 0.25;
-    border-radius: 50%;
+    opacity: .20;
+    z-index: 0;
 }
 
 .container {
     position: relative;
-    text-align: center;
-    padding: 45px 30px;
+    z-index: 2;
     width: 90%;
-    max-width: 450px;
-    background: #11111d;
-    border: 1px solid #713cff;
-    border-radius: 20px;
-    box-shadow: 0 0 35px #702cff33;
+    max-width: 480px;
+    padding: 45px 30px;
+    text-align: center;
+    background: rgba(10, 10, 20, .91);
+    border: 1px solid #8b35ff;
+    border-radius: 18px;
+    box-shadow:
+        0 0 15px #8b35ff,
+        0 0 50px #6b00ff44,
+        inset 0 0 25px #6b00ff11;
+    animation: aparecer 1.2s ease;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .logo {
-    color: #a879ff;
-    font-size: 15px;
-    letter-spacing: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 12px;
+    color: #bb83ff;
+    text-shadow: 0 0 15px #a34cff;
     margin-bottom: 35px;
 }
 
+.status {
+    color: #36ff9c;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+.status span {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: #36ff9c;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #36ff9c;
+    margin-right: 8px;
+}
+
 h1 {
-    font-size: 35px;
+    font-size: clamp(25px, 7vw, 37px);
+    color: white;
+    text-shadow: 0 0 10px #a34cff,
+                 0 0 25px #7b22ff;
     margin-bottom: 15px;
 }
 
-p {
+.subtitle {
     color: #aaa;
-    margin-bottom: 30px;
+    font-size: 13px;
+    margin-bottom: 35px;
+}
+
+.discord-box {
+    background: #151326;
+    border: 1px solid #8050ff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 22px;
+    box-shadow: 0 0 18px #733cff22;
+}
+
+.discord-label {
+    color: #999;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
 }
 
 .username {
-    background: #1b1b2b;
-    border: 1px solid #5865F2;
-    padding: 17px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    font-size: 20px;
-    color: #a99aff;
+    font-size: 23px;
+    color: #c6a3ff;
+    text-shadow: 0 0 12px #8b35ff;
 }
 
 button {
-    background: #5865F2;
-    border: none;
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #a879ff;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #6722ce, #4132bd);
     color: white;
-    padding: 15px 30px;
-    border-radius: 9px;
-    font-size: 16px;
+    font-family: Consolas, monospace;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 2px;
     cursor: pointer;
     transition: .3s;
 }
 
 button:hover {
-    background: #7955ff;
-    box-shadow: 0 0 25px #7955ff88;
-    transform: scale(1.05);
+    transform: scale(1.04);
+    box-shadow: 0 0 25px #8b35ff;
+    background: linear-gradient(90deg, #873cff, #514aff);
 }
 
 .footer {
     margin-top: 35px;
-    color: #666;
-    font-size: 11px;
+    color: #686080;
+    font-size: 10px;
     letter-spacing: 3px;
+}
+
+.line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8b35ff, transparent);
+    margin: 25px 0;
+}
+
+@media(max-width: 400px) {
+    .container {
+        padding: 35px 20px;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<canvas id="matrix"></canvas>
+<div class="glow"></div>
+
 <div class="container">
 
-    <div class="logo">J A D I X</div>
+    <div class="logo">JADIX</div>
+
+    <div class="status">
+        <span></span>SYSTEM ONLINE
+    </div>
 
     <h1>CHAME NO DISCORD</h1>
 
-    <p>Quer trocar uma ideia? Me adiciona!</p>
+    <p class="subtitle">
+        Bem-vindo ao meu espaço digital.
+        Vamos conversar?
+    </p>
 
-    <div class="username">
-        Nesquiik1999
+    <div class="discord-box">
+        <div class="discord-label">
+            MEU USUÁRIO
+        </div>
+
+        <div class="username">
+            Nesquiik1999
+        </div>
     </div>
 
     <button onclick="copiarDiscord()">
-        ADICIONAR NO DISCORD
+        [ COPIAR DISCORD ]
     </button>
 
+    <div class="line"></div>
+
     <div class="footer">
-        ✦ Obrigado pela visita ✦
+        JADIX SYSTEMS © 2026
+        <br><br>
+        THANKS FOR VISITING
     </div>
 
 </div>
 
 <script>
+// CHUVA DIGITAL MATRIX
+
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+let width, height, columns, drops;
+
+function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+
+    columns = Math.floor(width / 17);
+    drops = Array(columns).fill(1);
+}
+
+function drawMatrix() {
+    ctx.fillStyle = "rgba(5, 5, 9, 0.09)";
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = "#9b4dff";
+    ctx.font = "15px Consolas";
+
+    const chars = "01アイウエオカキクケコ";
+
+    for (let i = 0; i < drops.length; i++) {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+
+        ctx.fillText(char, i * 17, drops[i] * 17);
+
+        if (drops[i] * 17 > height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+
+        drops[i]++;
+    }
+}
+
+resize();
+window.addEventListener("resize", resize);
+setInterval(drawMatrix, 45);
+
+// COPIAR DISCORD
+
 function copiarDiscord() {
     navigator.clipboard.writeText("Nesquiik1999")
     .then(() => {
-        alert("Usuário copiado! Me adicione no Discord.");
+        const button = document.querySelector("button");
+        button.textContent = "[ USUÁRIO COPIADO! ]";
+
+        setTimeout(() => {
+            button.textContent = "[ COPIAR DISCORD ]";
+        }, 2000);
+    })
+    .catch(() => {
+        alert("Não foi possível copiar. Usuário: Nesquiik1999");
     });
 }
 </script>
