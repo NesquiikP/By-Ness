@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JADIX | Discord</title>
+<title>JADIX | Sistema</title>
 
 <style>
 * {
@@ -18,9 +18,6 @@ body {
     color: white;
     font-family: Consolas, monospace;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
 }
 
@@ -28,7 +25,7 @@ body {
     position: fixed;
     inset: 0;
     z-index: 0;
-    opacity: 0.55;
+    opacity: .45;
 }
 
 .glow {
@@ -37,98 +34,87 @@ body {
     height: 500px;
     background: #7300ff;
     filter: blur(180px);
-    opacity: .20;
+    opacity: .2;
     z-index: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.container {
-    position: relative;
+.screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 2;
-    width: 90%;
-    max-width: 480px;
-    padding: 45px 30px;
-    text-align: center;
-    background: rgba(10, 10, 20, .91);
-    border: 1px solid #8b35ff;
-    border-radius: 18px;
-    box-shadow:
-        0 0 15px #8b35ff,
-        0 0 50px #6b00ff44,
-        inset 0 0 25px #6b00ff11;
-    animation: aparecer 1.2s ease;
+    padding: 20px;
 }
 
-@keyframes aparecer {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.panel {
+    width: 100%;
+    max-width: 470px;
+    padding: 40px 28px;
+    background: rgba(10, 10, 20, .94);
+    border: 1px solid #873cff;
+    border-radius: 16px;
+    box-shadow: 0 0 30px #702cff55;
+    text-align: center;
 }
 
 .logo {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 30px;
+    color: #b78aff;
     letter-spacing: 12px;
-    color: #bb83ff;
-    text-shadow: 0 0 15px #a34cff;
-    margin-bottom: 35px;
+    text-shadow: 0 0 20px #8b35ff;
+    margin-bottom: 30px;
 }
 
-.status {
-    color: #36ff9c;
-    font-size: 11px;
-    letter-spacing: 3px;
+.terminal {
+    text-align: left;
+    background: #080810;
+    border: 1px solid #30234b;
+    padding: 18px;
+    border-radius: 8px;
+    min-height: 125px;
+    margin-bottom: 25px;
+    color: #39ff9c;
+    font-size: 12px;
+    line-height: 2;
+}
+
+.terminal p {
+    min-height: 20px;
+}
+
+.barra {
+    width: 100%;
+    height: 8px;
+    background: #242035;
+    border-radius: 10px;
+    overflow: hidden;
     margin-bottom: 25px;
 }
 
-.status span {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    background: #36ff9c;
-    border-radius: 50%;
-    box-shadow: 0 0 12px #36ff9c;
-    margin-right: 8px;
+.progresso {
+    height: 100%;
+    width: 0%;
+    background: #9b4dff;
+    box-shadow: 0 0 15px #9b4dff;
+    transition: width .2s;
 }
 
 h1 {
-    font-size: clamp(25px, 7vw, 37px);
+    font-size: clamp(25px, 7vw, 35px);
     color: white;
-    text-shadow: 0 0 10px #a34cff,
-                 0 0 25px #7b22ff;
+    text-shadow: 0 0 15px #9b4dff;
     margin-bottom: 15px;
 }
 
-.subtitle {
+.descricao {
     color: #aaa;
     font-size: 13px;
-    margin-bottom: 35px;
-}
-
-.discord-box {
-    background: #151326;
-    border: 1px solid #8050ff;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 22px;
-    box-shadow: 0 0 18px #733cff22;
-}
-
-.discord-label {
-    color: #999;
-    font-size: 10px;
-    letter-spacing: 3px;
-    margin-bottom: 12px;
-}
-
-.username {
-    font-size: 23px;
-    color: #c6a3ff;
-    text-shadow: 0 0 12px #8b35ff;
+    margin-bottom: 30px;
 }
 
 button {
@@ -149,25 +135,60 @@ button {
 button:hover {
     transform: scale(1.04);
     box-shadow: 0 0 25px #8b35ff;
-    background: linear-gradient(90deg, #873cff, #514aff);
 }
 
-.footer {
-    margin-top: 35px;
-    color: #686080;
+#entrada {
+    display: flex;
+}
+
+#principal {
+    display: none;
+}
+
+.status {
+    color: #36ff9c;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+.discord {
+    background: #151326;
+    border: 1px solid #8050ff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 25px 0;
+}
+
+.rotulo {
+    color: #999;
     font-size: 10px;
     letter-spacing: 3px;
+    margin-bottom: 12px;
 }
 
-.line {
+.usuario {
+    font-size: 23px;
+    color: #c6a3ff;
+    text-shadow: 0 0 12px #8b35ff;
+}
+
+.linha {
     height: 1px;
     background: linear-gradient(90deg, transparent, #8b35ff, transparent);
     margin: 25px 0;
 }
 
+.rodape {
+    color: #777;
+    font-size: 10px;
+    letter-spacing: 3px;
+    line-height: 2;
+}
+
 @media(max-width: 400px) {
-    .container {
-        padding: 35px 20px;
+    .panel {
+        padding: 30px 20px;
     }
 }
 </style>
@@ -178,103 +199,195 @@ button:hover {
 <canvas id="matrix"></canvas>
 <div class="glow"></div>
 
-<div class="container">
+<!-- TELA DE ENTRADA -->
 
-    <div class="logo">JADIX</div>
+<div class="screen" id="entrada">
+    <div class="panel">
 
-    <div class="status">
-        <span></span>SYSTEM ONLINE
-    </div>
+        <div class="logo">JADIX</div>
 
-    <h1>CHAME NO DISCORD</h1>
-
-    <p class="subtitle">
-        Bem-vindo ao meu espaço digital.
-        Vamos conversar?
-    </p>
-
-    <div class="discord-box">
-        <div class="discord-label">
-            MEU USUÁRIO
+        <div class="terminal">
+            <p id="linha1">> INICIALIZANDO SISTEMA...</p>
+            <p id="linha2"></p>
+            <p id="linha3"></p>
+            <p id="linha4"></p>
         </div>
 
-        <div class="username">
-            Nesquiik1999
+        <div class="barra">
+            <div class="progresso" id="progresso"></div>
         </div>
+
+        <h1>BEM-VINDO AO JADIX</h1>
+
+        <p class="descricao">
+            Sistema pronto. Aguarde sua entrada.
+        </p>
+
+        <button id="entrar" disabled onclick="entrarSistema()">
+            CARREGANDO...
+        </button>
+
     </div>
+</div>
 
-    <button onclick="copiarDiscord()">
-        [ COPIAR DISCORD ]
-    </button>
+<!-- PÁGINA PRINCIPAL -->
 
-    <div class="line"></div>
+<div class="screen" id="principal">
+    <div class="panel">
 
-    <div class="footer">
-        JADIX SYSTEMS © 2026
-        <br><br>
-        THANKS FOR VISITING
+        <div class="logo">JADIX</div>
+
+        <div class="status">
+            ● SISTEMA ONLINE
+        </div>
+
+        <h1>CHAME NO DISCORD</h1>
+
+        <p class="descricao">
+            Bem-vindo ao meu espaço digital.
+            Vamos conversar?
+        </p>
+
+        <div class="discord">
+            <div class="rotulo">MEU USUÁRIO</div>
+            <div class="usuario">Nesquiik1999</div>
+        </div>
+
+        <button onclick="copiarDiscord()">
+            COPIAR USUÁRIO
+        </button>
+
+        <div class="linha"></div>
+
+        <div class="rodape">
+            SISTEMAS JADIX © 2026
+            <br>
+            OBRIGADO PELA VISITA
+        </div>
+
     </div>
-
 </div>
 
 <script>
-// CHUVA DIGITAL MATRIX
+
+// CHUVA DIGITAL
 
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
-let width, height, columns, drops;
+let largura, altura, colunas, gotas;
 
-function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+function ajustarTela() {
+    largura = canvas.width = window.innerWidth;
+    altura = canvas.height = window.innerHeight;
 
-    columns = Math.floor(width / 17);
-    drops = Array(columns).fill(1);
+    colunas = Math.floor(largura / 17);
+    gotas = Array(colunas).fill(1);
 }
 
-function drawMatrix() {
+function chuvaDigital() {
     ctx.fillStyle = "rgba(5, 5, 9, 0.09)";
-    ctx.fillRect(0, 0, width, height);
+    ctx.fillRect(0, 0, largura, altura);
 
     ctx.fillStyle = "#9b4dff";
     ctx.font = "15px Consolas";
 
-    const chars = "01アイウエオカキクケコ";
+    const caracteres = "01アイウエオカキクケコ";
 
-    for (let i = 0; i < drops.length; i++) {
-        const char = chars[Math.floor(Math.random() * chars.length)];
+    for (let i = 0; i < gotas.length; i++) {
+        const letra = caracteres[
+            Math.floor(Math.random() * caracteres.length)
+        ];
 
-        ctx.fillText(char, i * 17, drops[i] * 17);
+        ctx.fillText(letra, i * 17, gotas[i] * 17);
 
-        if (drops[i] * 17 > height && Math.random() > 0.975) {
-            drops[i] = 0;
+        if (gotas[i] * 17 > altura && Math.random() > 0.975) {
+            gotas[i] = 0;
         }
 
-        drops[i]++;
+        gotas[i]++;
     }
 }
 
-resize();
-window.addEventListener("resize", resize);
-setInterval(drawMatrix, 45);
+ajustarTela();
+window.addEventListener("resize", ajustarTela);
+setInterval(chuvaDigital, 45);
 
-// COPIAR DISCORD
+
+// CARREGAMENTO DA TELA
+
+let porcentagem = 0;
+
+const mensagens = [
+    "> CONECTANDO AO SERVIDOR...",
+    "> CARREGANDO PROTOCOLOS DE SEGURANÇA...",
+    "> ACESSO LIBERADO."
+];
+
+const linhas = [
+    document.getElementById("linha2"),
+    document.getElementById("linha3"),
+    document.getElementById("linha4")
+];
+
+const botao = document.getElementById("entrar");
+
+const carregamento = setInterval(() => {
+
+    porcentagem += 2;
+
+    document.getElementById("progresso").style.width =
+        porcentagem + "%";
+
+    if (porcentagem >= 34) {
+        linhas[0].textContent = mensagens[0];
+    }
+
+    if (porcentagem >= 58) {
+        linhas[1].textContent = mensagens[1];
+    }
+
+    if (porcentagem >= 100) {
+        linhas[2].textContent = mensagens[2];
+
+        clearInterval(carregamento);
+
+        botao.disabled = false;
+        botao.textContent = "ENTRAR NO SISTEMA";
+    }
+
+}, 45);
+
+
+// ENTRAR NO SITE
+
+function entrarSistema() {
+    document.getElementById("entrada").style.display = "none";
+    document.getElementById("principal").style.display = "flex";
+}
+
+
+// COPIAR USUÁRIO DO DISCORD
 
 function copiarDiscord() {
+
     navigator.clipboard.writeText("Nesquiik1999")
     .then(() => {
-        const button = document.querySelector("button");
-        button.textContent = "[ USUÁRIO COPIADO! ]";
+
+        const botao = document.querySelector("#principal button");
+
+        botao.textContent = "USUÁRIO COPIADO!";
 
         setTimeout(() => {
-            button.textContent = "[ COPIAR DISCORD ]";
+            botao.textContent = "COPIAR USUÁRIO";
         }, 2000);
+
     })
     .catch(() => {
-        alert("Não foi possível copiar. Usuário: Nesquiik1999");
+        alert("Seu usuário é: Nesquiik1999");
     });
 }
+
 </script>
 
 </body>
