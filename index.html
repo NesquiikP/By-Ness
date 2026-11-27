@@ -1,21 +1,137 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Meu Discord</title>
-    <style>
-        body {
-            background: black;
-            color: #5865F2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: Arial;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JADIX | Discord</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #080810;
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: #702cff;
+    filter: blur(180px);
+    opacity: 0.25;
+    border-radius: 50%;
+}
+
+.container {
+    position: relative;
+    text-align: center;
+    padding: 45px 30px;
+    width: 90%;
+    max-width: 450px;
+    background: #11111d;
+    border: 1px solid #713cff;
+    border-radius: 20px;
+    box-shadow: 0 0 35px #702cff33;
+}
+
+.logo {
+    color: #a879ff;
+    font-size: 15px;
+    letter-spacing: 8px;
+    margin-bottom: 35px;
+}
+
+h1 {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+p {
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+.username {
+    background: #1b1b2b;
+    border: 1px solid #5865F2;
+    padding: 17px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #a99aff;
+}
+
+button {
+    background: #5865F2;
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 9px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+button:hover {
+    background: #7955ff;
+    box-shadow: 0 0 25px #7955ff88;
+    transform: scale(1.05);
+}
+
+.footer {
+    margin-top: 35px;
+    color: #666;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+</style>
 </head>
+
 <body>
+
+<div class="container">
+
+    <div class="logo">J A D I X</div>
+
     <h1>CHAME NO DISCORD</h1>
+
+    <p>Quer trocar uma ideia? Me adiciona!</p>
+
+    <div class="username">
+        Nesquiik1999
+    </div>
+
+    <button onclick="copiarDiscord()">
+        ADICIONAR NO DISCORD
+    </button>
+
+    <div class="footer">
+        ✦ Obrigado pela visita ✦
+    </div>
+
+</div>
+
+<script>
+function copiarDiscord() {
+    navigator.clipboard.writeText("Nesquiik1999")
+    .then(() => {
+        alert("Usuário copiado! Me adicione no Discord.");
+    });
+}
+</script>
+
 </body>
 </html>
