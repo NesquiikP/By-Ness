@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080510">
+  <title>JADIX | Discord</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100vh; overflow: hidden; color: #f5efff;
+      background: #080510; font-family: "Segoe UI", Arial, sans-serif;
+    }
+    #matrix {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      opacity: .45; z-index: 0;
+    }
+    .glow {
+      position: fixed; width: 420px; height: 420px; border-radius: 50%;
+      background: #8b35ff; filter: blur(150px); opacity: .22;
+      top: 25%; left: 50%; transform: translateX(-50%); z-index: 0;
+    }
+    .screen {
+      position: relative; z-index: 1; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .panel {
+      width: min(100%, 450px); padding: 38px 28px;
+      text-align: center; border-radius: 18px;
+      background: rgba(17, 15, 29, .91);
+      border: 1px solid rgba(174, 105, 255, .48);
+      box-shadow: 0 0 35px rgba(132, 55, 255, .22), inset 0 0 25px rgba(132, 55, 255, .04);
+      backdrop-filter: blur(12px);
+    }
+    .logo {
+      margin: 0 0 12px; color: #c99aff; font-size: clamp(30px, 8vw, 43px);
+      font-weight: 800; letter-spacing: .22em; text-shadow: 0 0 18px #8e42ff;
+    }
+    .eyebrow { color: #a98acb; font-size: 11px; letter-spacing: .28em; text-transform: uppercase; }
+    h1 { margin: 12px 0; font-size: 22px; letter-spacing: .12em; }
+    .sub { color: #b8adc8; font-size: 14px; line-height: 1.6; }
+    .terminal {
+      min-height: 76px; margin: 25px 0 18px; padding: 14px;
+      border: 1px solid rgba(167, 104, 255, .24); border-radius: 9px;
+      background: rgba(5, 4, 12, .65); color: #bd9aff;
+      font: 12px/1.8 Consolas, monospace; text-align: left;
+    }
+    .bar-wrap { height: 5px; background: #292035; border-radius: 9px; overflow: hidden; margin: 15px 0 22px; }
+    .bar { height: 100%; width: 0; background: linear-gradient(90deg, #7435db, #d5a5ff); box-shadow: 0 0 12px #a45cff; transition: width .12s linear; }
+    button {
+      width: 100%; padding: 14px 18px; border: 1px solid #a66aff;
+      border-radius: 8px; background: linear-gradient(100deg, #7134c5, #9b50ec);
+      color: white; font-weight: 800; letter-spacing: .12em; cursor: pointer;
+      box-shadow: 0 0 18px rgba(155, 80, 236, .3); transition: .2s;
+    }
+    button:hover { transform: translateY(-2px); filter: brightness(1.15); box-shadow: 0 0 25px rgba(174, 105, 255, .55); }
+    .hidden { display: none; }
+    .discord-user {
+      margin: 22px 0 16px; padding: 14px; border-radius: 8px;
+      background: rgba(5, 4, 12, .7); border: 1px solid rgba(167, 104, 255, .3);
+      color: #d9c5ff; font: 16px Consolas, monospace; letter-spacing: .04em;
+    }
+    .discord-button { background: linear-gradient(100deg, #5865f2, #7b83ff); border-color: #929aff; }
+    footer { margin-top: 27px; color: #806c9a; font-size: 10px; letter-spacing: .25em; }
+    @media (max-width: 480px) { .panel { padding: 30px 20px; } }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+  <div class="glow"></div>
+
+  <main class="screen">
+    <section class="panel" id="entrada">
+      <div class="eyebrow"> conexão segura // inicialização </div>
+      <div class="logo">JADIX</div>
+      <p class="sub">Preparando ambiente...</p>
+      <div class="terminal" id="terminal">[ SISTEMA ] Inicializando...<br>[ REDE ] Aguardando conexão...</div>
+      <div class="bar-wrap"><div class="bar" id="barra"></div></div>
+      <button id="entrar" type="button" disabled>CARREGANDO...</button>
+    </section>
+
+    <section class="panel hidden" id="principal">
+      <div class="eyebrow"> conexão estabelecida </div>
+      <div class="logo">JADIX</div>
+      <h1>CHAME NO DISCORD</h1>
+      <p class="sub">Entre em contato comigo pelo Discord.</p>
+      <div class="discord-user" id="discordUser">Nesquiik1999</div>
+      <button class="discord-button" id="copiar" type="button">COPIAR USUÁRIO</button>
+      <footer>✦ THANKS FOR VISITING ✦</footer>
+    </section>
+  </main>
+
+  <script>
+    // Chuva digital de fundo
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    let width, height, columns, drops;
+    const fontSize = 15;
+    const chars = 'アカサタナハマヤラワ0123456789JADIX';
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      columns = Math.ceil(width / fontSize);
+      drops = Array(columns).fill(1);
+    }
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(8, 5, 16, 0.09)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = '#9b55e8';
+      ctx.font = fontSize + 'px monospace';
+      for (let i = 0; i < drops.length; i++) {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+      requestAnimationFrame(drawMatrix);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    drawMatrix();
+
+    // Inicialização e entrada
+    const barra = document.getElementById('barra');
+    const terminal = document.getElementById('terminal');
+    const entrar = document.getElementById('entrar');
+    const mensagens = [
+      '[ SISTEMA ] Inicializando módulos...',
+      '[ REDE ] Conectando ao servidor...',
+      '[ SEGURANÇA ] Verificando protocolos...',
+      '[ STATUS ] Acesso liberado.'
+    ];
+    let progresso = 0;
+    const carregamento = setInterval(() => {
+      progresso = Math.min(100, progresso + 2);
+      barra.style.width = progresso + '%';
+      if (progresso === 25) terminal.innerHTML = mensagens[1];
+      if (progresso === 55) terminal.innerHTML = mensagens[2];
+      if (progresso === 85) terminal.innerHTML = mensagens[3];
+      if (progresso >= 100) {
+        clearInterval(carregamento);
+        terminal.innerHTML = mensagens[3];
+        entrar.disabled = false;
+        entrar.textContent = 'ENTRAR NO SISTEMA';
+      }
+    }, 65);
+
+    entrar.addEventListener('click', () => {
+      document.getElementById('entrada').classList.add('hidden');
+      document.getElementById('principal').classList.remove('hidden');
+    });
+
+    // Copia o nome de usuário do Discord
+    document.getElementById('copiar').addEventListener('click', async () => {
+      const usuario = 'Nesquiik1999';
+      try {
+        await navigator.clipboard.writeText(usuario);
+        document.getElementById('copiar').textContent = 'USUÁRIO COPIADO!';
+      } catch (e) {
+        window.prompt('Copie seu usuário do Discord:', usuario);
+      }
+    });
+  </script>
+</body>
+</html>
